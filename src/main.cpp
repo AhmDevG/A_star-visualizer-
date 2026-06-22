@@ -177,66 +177,6 @@ void a_star_step(){
 
 }
 
-// optional<vector<Node*>> a_star()
-// {
-//
-//     m_opened.push(start);
-//
-//     start->g = 0 ;
-//     start->h = heuristic(*start, *goal);
-//     start->f = start->g + start->h;
-//
-//     while(!m_opened.empty())
-//     {
-//         Node* node = m_opened.top();
-//         m_opened.pop();
-//
-//         if(node->is_obs || node->is_closed)
-//             continue;
-//
-//         if(node == goal)
-//         {
-//             vector<Node*> path;
-//
-//             pair<int,int> parent_pos = goal->parent_index;
-//             Node* current = goal; 
-//             while (current && !current->is_start){
-//                 current = &m_grid[parent_pos.second][parent_pos.first]; 
-//                 parent_pos = current->parent_index;
-//                 path.push_back(current);
-//             }
-//
-//             return path;
-//         }
-//
-//         node->is_closed = true;
-//
-//         for(Node* n : get_neighbors(node))
-//         {
-//             if(n->is_closed || n->is_obs)
-//                 continue;
-//
-//             int new_g = node->g + 1;
-//
-//             if(new_g < n->g)
-//             {
-//                 n->g = new_g;
-//
-//                 n->h = heuristic(*n, *goal);
-//                 n->f = n->g + n->h;
-//
-//                 n->parent_index = {node->x, node->y};
-//
-//                 m_opened.push(n);
-//             }
-//         }
-//     }
-//
-//     return nullopt;
-// }
-//  
-//
-
 int main(){
     start->is_start = true;
     goal->is_end = true;
@@ -266,19 +206,6 @@ int main(){
 
     DrawOBS();
 
-    // auto path = a_star();
-    //
-    // if(path){
-    //     // cout << path->size() << endl;
-    //     for(Node* n : *path){
-    //         n->in_current_path = true;
-    //     }
-    // }
-    // else{
-    //     // handle not found
-    // }
-    //
-    
 
     while(!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
