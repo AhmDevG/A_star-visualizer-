@@ -201,7 +201,7 @@ int main(){
     InitWindow(WIDTH , HEIGHT, "Astar");
     InitAudioDevice();
 
-    SetTargetFPS(100000000);
+    SetTargetFPS(60);
 
     Music bgMusic = LoadMusicStream("../audios/toby fox - UNDERTALE Soundtrack - 04 Fallen Down.ogg");
     customFont = LoadFontEx("../fonts/DeterminationMonoWebRegular-Z5oq.ttf", 80, 0  , 0);
