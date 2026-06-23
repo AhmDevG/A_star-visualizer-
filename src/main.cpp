@@ -205,6 +205,7 @@ int main(){
 
     InitWindow(WIDTH , HEIGHT, "Astar");
     InitAudioDevice();
+
     Music bgMusic = LoadMusicStream("../audios/toby fox - UNDERTALE Soundtrack - 04 Fallen Down.ogg");
     customFont = LoadFontEx("../fonts/DeterminationMonoWebRegular-Z5oq.ttf", 80, 0  , 0);
 
