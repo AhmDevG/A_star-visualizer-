@@ -5,6 +5,7 @@
 #include <utility>
 #include "../include/raylib.h"
 
+
 using namespace std;
 
 
@@ -221,7 +222,6 @@ int main(){
     start->f = start->g + start->h;
 
     DrawOBS();
-    
 
     while(!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
