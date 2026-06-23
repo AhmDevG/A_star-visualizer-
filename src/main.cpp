@@ -23,6 +23,7 @@ struct Node {
     bool is_end = false;
     bool is_obs = false;
     bool is_closed = false;
+    bool is_opened = false;
     bool in_current_path = false;
     pair<int , int> parent_index { -1 , -1};
 };
@@ -54,12 +55,13 @@ void DrawGrid(){
             int y_position = row * GRID_BOX_SIZE;
 
             Color color  = BLACK;
-            if (m_grid[row][col].is_closed) color = DARKGREEN;
-            if (m_grid[row][col].in_current_path) color = GOLD;
-            if (m_grid[row][col].is_start) color = GREEN ;
-            if (m_grid[row][col].is_end) color = RED;
-            if (m_grid[row][col].is_obs) color = BLUE; 
-            if (m_grid[row][col].is_start || m_grid[row][col].is_end || m_grid[row][col].is_obs || m_grid[row][col].is_closed || m_grid[row][col].in_current_path) {
+            if (m_grid[row][col].is_obs)               color = GRAY;
+            else if (m_grid[row][col].is_end)          color = RED;
+            else if (m_grid[row][col].is_start)        color = GREEN;
+            else if (m_grid[row][col].in_current_path) color = GOLD;
+            else if (m_grid[row][col].is_closed)       color = PURPLE;
+            else if (m_grid[row][col].is_opened)       color = BLUE;
+            if (m_grid[row][col].is_start || m_grid[row][col].is_end || m_grid[row][col].is_obs || m_grid[row][col].is_closed || m_grid[row][col].in_current_path || m_grid[row][col].is_opened) {
                 DrawRectangle(x_position , y_position , GRID_BOX_SIZE , GRID_BOX_SIZE , color);
             }
             DrawRectangleLines(x_position , y_position , GRID_BOX_SIZE , GRID_BOX_SIZE , DARKGRAY);
@@ -153,7 +155,6 @@ void a_star_step(){
 
      if(node == goal)
      {
-         found = true;
          vector<Node*> path;
 
          pair<int,int> parent_pos = goal->parent_index;
@@ -168,9 +169,12 @@ void a_star_step(){
          for(Node* n : path){
              n->in_current_path = true;
          }
+         found = true;
+         return;
      }
 
      node->is_closed = true;
+     node->is_opened = false;
 
      for(Node* n : get_neighbors(node))
      {
@@ -188,6 +192,7 @@ void a_star_step(){
 
              n->parent_index = {node->x, node->y};
 
+             n -> is_opened = true;
              m_opened.push(n);
          }
      }
@@ -200,9 +205,6 @@ int main(){
 
     InitWindow(WIDTH , HEIGHT, "Astar");
     InitAudioDevice();
-
-    SetTargetFPS(100000000);
-
     Music bgMusic = LoadMusicStream("../audios/toby fox - UNDERTALE Soundtrack - 04 Fallen Down.ogg");
     customFont = LoadFontEx("../fonts/DeterminationMonoWebRegular-Z5oq.ttf", 80, 0  , 0);
 
@@ -223,16 +225,26 @@ int main(){
 
     DrawOBS();
 
+    float timer = 0 ;
+
     while(!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
 
+        timer += GetFrameTime();
+
+        if (timer > 0.1f){
+            for (int i = 0; i < 10; i++) {
+                a_star_step();
+                timer = 0;
+            }
+        }
 
         BeginDrawing();
         
         ClearBackground(BLACK);
 
         DrawGrid();
-        a_star_step();
+
 
 
 
